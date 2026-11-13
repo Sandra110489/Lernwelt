@@ -3,9 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lernwelt</title>
+  <title>Mein Wochenplan</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <h1>Hallo</h1>
+  <header class="kopf">
+    <div>
+      <h1>Mein Wochenplan</h1>
+      <p id="wochen-text" class="wochen-text"></p>
+    </div>
+    <nav class="blaettern" aria-label="Woche wechseln">
+      <button type="button" id="btn-vorige">← Vorige Woche</button>
+      <button type="button" id="btn-diese">Diese Woche</button>
+      <button type="button" id="btn-naechste">Nächste Woche →</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="kasten">
+      <h2>Meine Arbeitstage</h2>
+      <div id="arbeitstage" class="arbeitstage"></div>
+    </section>
+
+    <section class="kasten">
+      <h2>Neue Aufgabe</h2>
+      <form id="formular" class="formular" novalidate>
+        <label class="feld feld-titel">
+          Titel
+          <input type="text" id="f-titel" maxlength="100" autocomplete="off" placeholder="z. B. Bericht schreiben">
+        </label>
+
+        <label class="feld">
+          Tag
+          <select id="f-tag"></select>
+        </label>
+
+        <fieldset class="feld bereich">
+          <legend>Bereich</legend>
+          <label><input type="radio" name="bereich" value="beruf" id="f-beruf" checked> Beruf</label>
+          <label><input type="radio" name="bereich" value="privat" id="f-privat"> Privat</label>
+        </fieldset>
+
+        <label class="feld">
+          Dauer
+          <select id="f-dauer">
+            <option value="15">15 Min.</option>
+            <option value="30">30 Min.</option>
+            <option value="60" selected>1 Std.</option>
+            <option value="120">2 Std.</option>
+            <option value="180">3 Std.</option>
+            <option value="240">4 Std.</option>
+          </select>
+        </label>
+
+        <div class="feld haken">
+          <label><input type="checkbox" id="f-wichtig"> wichtig</label>
+          <label><input type="checkbox" id="f-dringend"> dringend</label>
+        </div>
+
+        <button type="submit" class="hinzufuegen">Hinzufügen</button>
+      </form>
+      <p id="hinweis-titel" class="hinweis fehler" hidden>Bitte einen Titel eingeben.</p>
+      <p id="hinweis-frei" class="hinweis" hidden>Freier Tag: nur Privates planbar.</p>
+    </section>
+
+    <section id="raster" class="raster" aria-label="Wochenplan"></section>
+  </main>
 </body>
 </html>

@@ -1,0 +1,205 @@
+:root {
+  --hintergrund: #f4f5f7;
+  --flaeche: #ffffff;
+  --text: #1f2933;
+  --text-leise: #52606d;
+  --rand: #d3d8de;
+
+  --beruf: #1d5fbf;
+  --beruf-hell: #e6effb;
+  --privat: #1e7a46;
+  --privat-hell: #e5f4ec;
+
+  --frei: #e9eaec;
+  --heute: #c2410c;
+  --warnung: #9a3412;
+  --fehler: #b42318;
+
+  --prio1-bg: #fde2e1; --prio1-text: #9b1c1c;
+  --prio2-bg: #fdebd3; --prio2-text: #8a4b08;
+  --prio3-bg: #fef6c7; --prio3-text: #6b5300;
+  --prio4-bg: #eceef1; --prio4-text: #4b5563;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+main, .kopf { max-width: 1400px; margin: 0 auto; }
+
+h1 { margin: 0; font-size: 1.8rem; }
+h2 { margin: 0 0 8px; font-size: 1.1rem; }
+
+button, input, select { font: inherit; }
+
+button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  background: var(--flaeche);
+  color: var(--text);
+}
+button:hover { background: #eef1f4; }
+
+/* Kopf */
+.kopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.wochen-text { margin: 4px 0 0; color: var(--text-leise); font-size: 1.1rem; }
+.blaettern { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Kästen */
+.kasten {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+/* Arbeitstage */
+.arbeitstage { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.arbeitstage label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+
+/* Formular */
+.formular {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+.feld { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; color: var(--text-leise); }
+.feld input[type="text"], .feld select {
+  padding: 6px 8px;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--flaeche);
+}
+.feld-titel { flex: 1 1 220px; }
+.feld-titel input { width: 100%; }
+
+.bereich { border: none; margin: 0; padding: 0; flex-direction: row; gap: 12px; align-items: center; }
+.bereich legend { padding: 0; margin-bottom: 4px; }
+.bereich label, .haken label { color: var(--text); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.bereich label:has(input:disabled) { color: #9aa5b1; cursor: not-allowed; text-decoration: line-through; }
+.haken { flex-direction: row; gap: 12px; padding-bottom: 6px; }
+
+.hinzufuegen {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+  font-weight: 600;
+}
+.hinzufuegen:hover { background: #3e4c59; }
+
+.hinweis { margin: 8px 0 0; color: var(--warnung); font-size: 0.95rem; }
+.hinweis.fehler { color: var(--fehler); font-weight: 600; }
+
+/* Wochenraster */
+.raster {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tag {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  padding: 8px;
+  min-height: 160px;
+  min-width: 0;
+}
+.tag.frei { background: var(--frei); }
+.tag.heute { border: 3px solid var(--heute); }
+
+.tag-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin-bottom: 8px;
+}
+.tag-name { font-weight: 700; }
+.tag-datum { color: var(--text-leise); }
+.etikett-heute { color: var(--heute); font-weight: 700; font-size: 0.85rem; }
+.etikett-frei {
+  font-size: 0.8rem;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--rand);
+  color: var(--text-leise);
+}
+.leer { color: var(--text-leise); font-size: 0.85rem; margin: 0; }
+
+.aufgaben { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+/* Aufgaben-Kärtchen */
+.karte {
+  border-radius: 8px;
+  border-left: 5px solid;
+  padding: 6px 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2px 6px;
+  align-items: start;
+}
+.karte.beruf { border-left-color: var(--beruf); background: var(--beruf-hell); }
+.karte.privat { border-left-color: var(--privat); background: var(--privat-hell); }
+
+.karte input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+.karte-titel { font-weight: 600; overflow-wrap: anywhere; }
+.karte.erledigt .karte-titel { text-decoration: line-through; color: var(--text-leise); }
+.karte.erledigt { opacity: 0.75; }
+
+.loeschen {
+  border: none;
+  background: transparent;
+  padding: 0 4px;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text-leise);
+}
+.loeschen:hover { color: var(--fehler); background: transparent; }
+
+.karte-info {
+  grid-column: 2 / 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  font-size: 0.8rem;
+}
+.bereich-text.beruf { color: var(--beruf); font-weight: 600; }
+.bereich-text.privat { color: var(--privat); font-weight: 600; }
+.dauer { color: var(--text-leise); }
+
+.prio { padding: 0 6px; border-radius: 999px; font-weight: 600; }
+.prio-1 { background: var(--prio1-bg); color: var(--prio1-text); }
+.prio-2 { background: var(--prio2-bg); color: var(--prio2-text); }
+.prio-3 { background: var(--prio3-bg); color: var(--prio3-text); }
+.prio-4 { background: var(--prio4-bg); color: var(--prio4-text); }
+
+.warn-frei { color: var(--warnung); font-weight: 600; }
+
+/* Handy und schmale Fenster: Tage untereinander */
+@media (max-width: 800px) {
+  .raster { grid-template-columns: 1fr; }
+  .tag { min-height: 0; }
+  h1 { font-size: 1.5rem; }
+}
