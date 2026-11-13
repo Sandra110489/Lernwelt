@@ -133,6 +133,11 @@ function dauerText(minuten) {
   return (minuten / 60) + " Std.";
 }
 
+// Minuten als Stunden-Text, z. B. 90 -> "1,5 Std."
+function stundenText(minuten) {
+  return (minuten / 60).toLocaleString("de-DE", { maximumFractionDigits: 2 }) + " Std.";
+}
+
 function neueId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
@@ -151,8 +156,11 @@ const el = {
   wichtig: document.getElementById("f-wichtig"),
   dringend: document.getElementById("f-dringend"),
   hinweisTitel: document.getElementById("hinweis-titel"),
-  hinweisFrei: document.getElementById("hinweis-frei"),
-  raster: document.getElementById("raster")
+  raster: document.getElementById("raster"),
+  balken: document.getElementById("balance-balken"),
+  balkenBeruf: document.getElementById("balance-beruf"),
+  balkenPrivat: document.getElementById("balance-privat"),
+  balanceText: document.getElementById("balance-text")
 };
 
 // ---------- Anzeige ----------
@@ -247,6 +255,55 @@ function zeichneRaster() {
 
     el.raster.appendChild(spalte);
   });
+
+  zeichneBalance();
+}
+
+// Highlight 1: Verteilung der geplanten Stunden (Beruf / Privat) in der angezeigten Woche
+function zeichneBalance() {
+  const woche = angezeigteTage().map(datumText);
+  let beruf = 0;
+  let privat = 0;
+  aufgaben.forEach(function (a) {
+    if (woche.indexOf(a.datum) === -1) return;
+    const minuten = Number(a.dauer) || 0;
+    if (a.bereich === "beruf") beruf += minuten;
+    else privat += minuten;
+  });
+
+  el.balanceText.textContent = "";
+  const summe = beruf + privat;
+  if (summe === 0) {
+    el.balken.hidden = true;
+    el.balken.setAttribute("aria-label", "Noch nichts geplant");
+    el.balanceText.textContent = "Noch nichts geplant";
+    return;
+  }
+
+  const prozentBeruf = Math.round(beruf / summe * 100);
+  const prozentPrivat = 100 - prozentBeruf;
+  el.balken.hidden = false;
+  el.balkenBeruf.style.width = prozentBeruf + "%";
+  el.balkenPrivat.style.width = prozentPrivat + "%";
+
+  const teil = function (bereich, wort, prozent, minuten) {
+    const span = document.createElement("span");
+    const name = document.createElement("span");
+    name.className = "bereich-text " + bereich;
+    name.textContent = wort;
+    span.appendChild(name);
+    span.appendChild(document.createTextNode(" " + prozent + " % · " + stundenText(minuten)));
+    return span;
+  };
+  const trenner = document.createElement("span");
+  trenner.className = "trenner";
+  trenner.textContent = "|";
+
+  el.balanceText.appendChild(teil("beruf", "Beruf", prozentBeruf, beruf));
+  el.balanceText.appendChild(trenner);
+  el.balanceText.appendChild(teil("privat", "Privat", prozentPrivat, privat));
+  el.balken.setAttribute("aria-label",
+    "Beruf " + prozentBeruf + " % · " + stundenText(beruf) + " | Privat " + prozentPrivat + " % · " + stundenText(privat));
 }
 
 function karte(a, tagIstFrei) {
@@ -310,7 +367,6 @@ function pruefeBereich() {
   const frei = el.tag.value !== "" && !istArbeitstag(el.tag.value);
   el.beruf.disabled = frei;
   if (frei) el.privat.checked = true;
-  el.hinweisFrei.hidden = !frei;
 }
 
 function zeichneAlles() {

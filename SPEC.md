@@ -33,7 +33,7 @@ Die App zeigt dann:
 4. **Arbeitstage (Teilzeit):**
    - In der Zeile „Meine Arbeitstage“ gibt es 7 Häkchen (Mo bis So). Voreingestellt sind **Dienstag, Donnerstag und Freitag**. Die Auswahl wird gespeichert und gilt für jede Woche.
    - Freie Tage sind im Wochenraster sichtbar markiert, z. B. mit dem Etikett „frei“ und einem anderen Hintergrund.
-   - **An einem freien Tag ist nur der Bereich „Privat“ planbar.** Wählt man im Formular einen freien Tag, ist „Beruf“ ausgegraut und nicht auswählbar, und „Privat“ wird automatisch gewählt. Ein kurzer Hinweis erklärt den Grund: „Freier Tag: nur Privates planbar“.
+   - **An einem freien Tag ist nur der Bereich „Privat“ planbar.** Wählt man im Formular einen freien Tag, ist „Beruf“ ausgegraut und nicht auswählbar, und „Privat“ wird automatisch gewählt. Einen extra Hinweistext gibt es dazu nicht.
    - Wird ein Tag nachträglich zum freien Tag, bleiben dort vorhandene berufliche Aufgaben erhalten. Sie bekommen den Hinweis „⚠ freier Tag“, damit man sie verschieben oder löschen kann.
 5. **Priorität automatisch** (nach der Eisenhower-Idee):
 
@@ -98,7 +98,7 @@ Von oben nach unten:
 2. **Balance-Balken** (Highlight 1)
 3. **Zwei Kästen nebeneinander:** die Karte „Heute zuerst“ (Highlight 2) und der Tipp-Kasten
 4. **Zeile „Meine Arbeitstage“** mit 7 kleinen Häkchen (Mo bis So)
-5. **Formular** „Neue Aufgabe“ in einer Zeile oder kompakt. An freien Tagen ist „Beruf“ ausgegraut und ein Hinweis steht dabei.
+5. **Formular** „Neue Aufgabe“ in einer Zeile oder kompakt. An freien Tagen ist „Beruf“ ausgegraut.
 6. **Wochenraster** mit 7 Spalten. Freie Tage tragen das Etikett „frei“ und haben einen anderen Hintergrund. Jede Aufgabe ist ein Kärtchen mit:
    - Rand oder Hintergrund in der Bereichsfarbe
    - Titel
@@ -140,6 +140,6 @@ Die App ist fertig, wenn diese Prüfungen klappen. Die Prüfungen 8 bis 11 gehö
 12. Wird das Fenster schmal wie beim Handy, liegen die Tage untereinander und nichts muss seitlich gescrollt werden.
 13. Im Code gibt es keine externen Links zu Bibliotheken oder Skripten.
 14. **Arbeitstage:** Beim ersten Start sind Di, Do und Fr angehakt. Mo, Mi, Sa und So tragen im Raster das Etikett „frei“.
-15. Im Formular den Montag (frei) wählen → „Beruf“ ist ausgegraut, „Privat“ ist gewählt und der Hinweis „Freier Tag: nur Privates planbar“ erscheint. Den Dienstag wählen → „Beruf“ ist wieder wählbar.
+15. Im Formular den Montag (frei) wählen → „Beruf“ ist ausgegraut und „Privat“ ist gewählt. Den Dienstag wählen → „Beruf“ ist wieder wählbar.
 16. Den Mittwoch als Arbeitstag anhaken → er verliert das Etikett „frei“ und „Beruf“ ist dort planbar. Nach dem Neuladen ist das Häkchen noch gesetzt.
 17. Dienstag eine berufliche Aufgabe anlegen, dann Dienstag als Arbeitstag abwählen → die Aufgabe bleibt sichtbar und trägt den Hinweis „⚠ freier Tag“.

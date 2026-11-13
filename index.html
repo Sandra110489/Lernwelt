@@ -21,12 +21,21 @@
   </header>
 
   <main>
-    <section class="kasten">
+    <section class="kasten kasten-balance">
+      <h2>Balance dieser Woche</h2>
+      <div id="balance-balken" class="balken" role="img" aria-label="">
+        <div id="balance-beruf" class="balken-teil beruf"></div>
+        <div id="balance-privat" class="balken-teil privat"></div>
+      </div>
+      <p id="balance-text" class="balance-text"></p>
+    </section>
+
+    <section class="kasten kasten-tage">
       <h2>Meine Arbeitstage</h2>
       <div id="arbeitstage" class="arbeitstage"></div>
     </section>
 
-    <section class="kasten">
+    <section class="kasten kasten-neu">
       <h2>Neue Aufgabe</h2>
       <form id="formular" class="formular" novalidate>
         <label class="feld feld-titel">
@@ -64,9 +73,7 @@
 
         <button type="submit" class="hinzufuegen">Hinzufügen</button>
       </form>
-      <p id="hinweis-titel" class="hinweis fehler" hidden>Bitte einen Titel eingeben.</p>
-      <p id="hinweis-frei" class="hinweis" hidden>Freier Tag: nur Privates planbar.</p>
-    </section>
+      <p id="hinweis-titel" class="hinweis fehler" hidden>Bitte einen Titel eingeben.</p>    </section>
 
     <section id="raster" class="raster" aria-label="Wochenplan"></section>
   </main>
