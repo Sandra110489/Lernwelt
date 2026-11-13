@@ -11,8 +11,6 @@ const TAG_LANG = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Sa
 const MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
   "August", "September", "Oktober", "November", "Dezember"];
 
-const PRIO_TEXT = { 1: "Sofort", 2: "Einplanen", 3: "Kurz halten", 4: "Weglassen?" };
-
 const WDH_TEXT = {
   taeglich: "täglich",
   woechentlich: "wöchentlich",
@@ -22,11 +20,11 @@ const WDH_TEXT = {
 };
 
 const TIPPS = [
-  "Wichtig vor dringend: Plane wichtige Aufgaben fest ein, bevor Dringendes den Tag füllt.",
+  "Plane Wichtiges fest ein, bevor andere Dinge den Tag füllen.",
   "Das Schwierigste zuerst: Erledige die unangenehmste Aufgabe am Anfang des Tages.",
   "Plane Puffer ein: Verplane nur etwa zwei Drittel deiner Zeit.",
   "Pausen gehören dazu: Nach 45–60 Minuten Konzentration hilft eine kurze Pause.",
-  "Nein sagen schützt deine Zeit. Aufgaben mit „Weglassen?“ darfst du wirklich streichen.",
+  "Nein sagen schützt deine Zeit. Nicht jede Aufgabe muss in deinen Plan.",
   "Teile große Aufgaben in kleine Schritte von höchstens 1–2 Stunden.",
   "Freie Tage sind für dich: Plane Erholung genauso bewusst ein wie Arbeit.",
   "Bündle Ähnliches: E-Mails, Anrufe oder Besorgungen am Stück erledigen."
@@ -56,6 +54,9 @@ function laden() {
         if (!Array.isArray(a.erledigtAm)) a.erledigtAm = [];
         if (!Array.isArray(a.ausgelassen)) a.ausgelassen = [];
         if (typeof a.bis !== "string") a.bis = "";
+        // Priorität gibt es nicht mehr: alte Angaben entfernen
+        delete a.wichtig;
+        delete a.dringend;
       });
     }
   } catch (e) {
@@ -201,18 +202,12 @@ function termineAm(datum) {
     .map(function (a) { return Object.assign({}, a, { datum: datum, erledigt: istErledigt(a, datum) }); });
 }
 
-// ---------- Priorität ----------
+// ---------- Reihenfolge ----------
 
-function prioritaet(a) {
-  if (a.wichtig && a.dringend) return 1;
-  if (a.wichtig) return 2;
-  if (a.dringend) return 3;
-  return 4;
-}
-
+// Innerhalb eines Tages: in der Reihenfolge des Anlegens
 function sortiere(liste) {
   return liste.slice().sort(function (x, y) {
-    return (prioritaet(x) - prioritaet(y)) || ((x.erstellt || 0) - (y.erstellt || 0));
+    return (x.erstellt || 0) - (y.erstellt || 0);
   });
 }
 
@@ -241,8 +236,6 @@ const el = {
   beruf: document.getElementById("f-beruf"),
   privat: document.getElementById("f-privat"),
   dauer: document.getElementById("f-dauer"),
-  wichtig: document.getElementById("f-wichtig"),
-  dringend: document.getElementById("f-dringend"),
   wdh: document.getElementById("f-wdh"),
   feldBis: document.getElementById("feld-bis"),
   bis: document.getElementById("f-bis"),
@@ -359,7 +352,7 @@ function zeichneRaster() {
   zeichneHeute();
 }
 
-// Highlight 2: die bis zu 3 wichtigsten offenen Aufgaben von heute (immer der echte heutige Tag)
+// Highlight 2: bis zu 3 offene Aufgaben von heute, kürzere zuerst (immer der echte heutige Tag)
 function zeichneHeute() {
   const jetzt = new Date();
   const heute = datumText(jetzt);
@@ -368,8 +361,7 @@ function zeichneHeute() {
 
   const vonHeute = termineAm(heute);
   const offen = vonHeute.filter(function (a) { return !a.erledigt; }).sort(function (x, y) {
-    return (prioritaet(x) - prioritaet(y)) ||
-      ((Number(x.dauer) || 0) - (Number(y.dauer) || 0)) ||
+    return ((Number(x.dauer) || 0) - (Number(y.dauer) || 0)) ||
       ((x.erstellt || 0) - (y.erstellt || 0));
   });
 
@@ -475,14 +467,8 @@ function karte(a, tagIstFrei) {
   dauer.className = "dauer";
   dauer.textContent = dauerText(a.dauer);
 
-  const p = prioritaet(a);
-  const prio = document.createElement("span");
-  prio.className = "prio prio-" + p;
-  prio.textContent = PRIO_TEXT[p];
-
   info.appendChild(bereich);
   info.appendChild(dauer);
-  info.appendChild(prio);
 
   if (a.wiederholung) {
     const wdh = document.createElement("span");
@@ -567,8 +553,6 @@ function aufgabeAnlegen(ereignis) {
     datum: datum,
     bereich: bereich,
     dauer: Number(el.dauer.value),
-    wichtig: el.wichtig.checked,
-    dringend: el.dringend.checked,
     erledigt: false,
     erstellt: Date.now(),
     wiederholung: wiederholung,
@@ -586,8 +570,6 @@ function aufgabeAnlegen(ereignis) {
     : "✓ „" + titel + "“ für " + tagText + " eingeplant");
 
   el.titel.value = "";
-  el.wichtig.checked = false;
-  el.dringend.checked = false;
   el.wdh.value = "";
   pruefeWiederholung();
   el.titel.focus();

@@ -3,7 +3,7 @@
 ## 1. Zweck
 
 Die App hilft dabei, die eigene Woche gut einzuteilen, und zwar beruflich und privat.
-Man trägt Aufgaben ein, ordnet sie einem Tag zu und sagt, ob sie **wichtig** und/oder **dringend** sind.
+Man trägt Aufgaben ein, ordnet sie einem Tag zu und schätzt, wie lange sie dauern.
 Die App zeigt dann:
 
 - was heute zuerst dran ist,
@@ -27,24 +27,13 @@ Die App zeigt dann:
    - Tag (Montag bis Sonntag der angezeigten Woche). Voreingestellt ist heute, wenn heute in der angezeigten Woche liegt, sonst der Montag.
    - Bereich: **Beruf** oder **Privat**
    - Dauer: 15 Min., 30 Min., 1 Std., 2 Std., 3 Std. oder 4 Std.
-   - Häkchen „wichtig“
-   - Häkchen „dringend“
 3. **Bereich in Farbe:** Berufliche und private Aufgaben haben jeweils eine eigene Farbe.
 4. **Arbeitstage (Teilzeit):**
    - In der Zeile „Meine Arbeitstage“ gibt es 7 Häkchen (Mo bis So). Voreingestellt sind **Dienstag, Donnerstag und Freitag**. Die Auswahl wird gespeichert und gilt für jede Woche.
    - Freie Tage sind im Wochenraster sichtbar markiert, z. B. mit dem Etikett „frei“ und einem anderen Hintergrund.
    - **An einem freien Tag ist nur der Bereich „Privat“ planbar.** Wählt man im Formular einen freien Tag, ist „Beruf“ ausgegraut und nicht auswählbar, und „Privat“ wird automatisch gewählt. Einen extra Hinweistext gibt es dazu nicht.
    - Wird ein Tag nachträglich zum freien Tag, bleiben dort vorhandene berufliche Aufgaben erhalten. Sie bekommen den Hinweis „⚠ freier Tag“, damit man sie verschieben oder löschen kann.
-5. **Priorität automatisch** (nach der Eisenhower-Idee):
-
-   | wichtig | dringend | Priorität | Anzeige        |
-   |---------|----------|-----------|----------------|
-   | ja      | ja       | 1         | „Sofort“       |
-   | ja      | nein     | 2         | „Einplanen“    |
-   | nein    | ja       | 3         | „Kurz halten“  |
-   | nein    | nein     | 4         | „Weglassen?“   |
-
-   Innerhalb eines Tages werden Aufgaben nach Priorität sortiert (1 steht oben). Bei gleicher Priorität gilt die Reihenfolge, in der sie angelegt wurden.
+5. **Reihenfolge:** Innerhalb eines Tages stehen die Aufgaben in der Reihenfolge, in der sie angelegt wurden. Eine Priorität (wichtig/dringend) gibt es nicht.
 6. **Abhaken:** Erledigte Aufgaben werden durchgestrichen und bleiben sichtbar. Ein erneuter Klick hebt das wieder auf.
 7. **Löschen:** Eine Aufgabe kann man löschen, vorher fragt die App einmal nach.
 8. **Speichern:** Alle Aufgaben und die Arbeitstage bleiben nach dem Neuladen der Seite erhalten.
@@ -52,7 +41,7 @@ Die App zeigt dann:
 ### Soll (wenn Zeit ist, die zwei Highlights zuerst)
 
 1. **Highlight 1: Balance-Balken.** Oben steht ein Balken, der den Anteil der geplanten Stunden in der angezeigten Woche zeigt: Beruf gegen Privat, in den beiden Bereichsfarben, mit Prozent und Stunden (z. B. „Beruf 70 % · 14 Std. | Privat 30 % · 6 Std.“). Hat die Woche noch keine Aufgaben, steht dort „Noch nichts geplant“.
-2. **Highlight 2: Karte „Heute zuerst“.** Sie zeigt die bis zu 3 wichtigsten **offenen** Aufgaben von heute, sortiert nach Priorität und bei gleicher Priorität nach Dauer (die kürzere zuerst). Ist nichts offen, steht dort „Heute ist alles erledigt 🎉“. Gibt es heute gar keine Aufgaben, steht dort „Für heute ist nichts geplant.“ Sind mehr als 3 Aufgaben offen, zeigt ein Hinweis, wie viele es noch gibt (z. B. „+ 2 weitere offene Aufgaben heute“). Die Karte zeigt immer den echten heutigen Tag, auch wenn gerade eine andere Woche angezeigt wird.
+2. **Highlight 2: Karte „Heute zuerst“.** Sie zeigt bis zu 3 **offene** Aufgaben von heute, die kürzeren zuerst (schnell Erledigtes bringt Schwung). Bei gleicher Dauer gilt die Reihenfolge des Anlegens. Ist nichts offen, steht dort „Heute ist alles erledigt 🎉“. Gibt es heute gar keine Aufgaben, steht dort „Für heute ist nichts geplant.“ Sind mehr als 3 Aufgaben offen, zeigt ein Hinweis, wie viele es noch gibt (z. B. „+ 2 weitere offene Aufgaben heute“). Die Karte zeigt immer den echten heutigen Tag, auch wenn gerade eine andere Woche angezeigt wird.
 3. **Tipp-Kasten:** Ein kurzer Tipp zum Zeitmanagement, nach dem Zufall ausgewählt aus etwa 8 festen Tipps. Bei jedem Neuladen wird neu gelost.
 4. **Wochen wechseln:** Mit den Knöpfen „← Vorige Woche“, „Diese Woche“ und „Nächste Woche →“ blättert man durch die Wochen.
 
@@ -79,7 +68,7 @@ Die App zeigt dann:
 - Keine Ausnahmen für einzelne Wochen (z. B. Urlaub oder ein getauschter Arbeitstag). Die Arbeitstage gelten immer für alle Wochen.
 - Keine Erinnerungen und keine Benachrichtigungen
 - Kein Sync zwischen Geräten, kein Export und kein Import
-- Keine eigene Eisenhower-Matrix-Ansicht
+- Keine Priorität (wichtig/dringend) und keine Eisenhower-Matrix – bewusst entfernt, damit das Anlegen schnell und einfach bleibt
 
 ## 4. Daten
 
@@ -92,19 +81,17 @@ Die Daten werden im Browser gespeichert (`localStorage`) unter dem Schlüssel `l
 | `datum`    | Text      | `"2026-11-16"`           | Tag (Jahr-Monat-Tag)              |
 | `bereich`  | Text      | `"beruf"` / `"privat"`   | Bereich                           |
 | `dauer`    | Zahl      | `60`                     | geschätzte Dauer in Minuten       |
-| `wichtig`  | ja/nein   | `true`                   |                                   |
-| `dringend` | ja/nein   | `false`                  |                                   |
+| `erstellt` | Zahl      | `1794582506376`          | Zeitpunkt des Anlegens (für die Reihenfolge) |
 | `erledigt` | ja/nein   | `false`                  | nur bei einmaligen Aufgaben       |
 | `wiederholung` | Text  | `""` / `"taeglich"` / `"woechentlich"` / `"zweiwoechentlich"` / `"monatlich"` / `"jaehrlich"` | `""` = einmalig; sonst ist `datum` der Starttag |
 | `bis`      | Text      | `""` / `"2027-03-31"`    | letzter möglicher Tag (leer = ohne Ende) |
 | `erledigtAm` | Liste   | `["2026-11-17"]`         | erledigte Termine einer Wiederholung |
 | `ausgelassen` | Liste  | `["2026-12-22"]`         | einzeln gelöschte Termine einer Wiederholung |
 
-Ältere gespeicherte Aufgaben ohne diese Felder gelten als einmalig.
+Ältere gespeicherte Aufgaben ohne diese Felder gelten als einmalig. Die früheren Felder `wichtig` und `dringend` werden beim Laden entfernt.
 
 Die **Arbeitstage** werden unter einem zweiten Schlüssel `lernwelt-arbeitstage` gespeichert, als Liste von Wochentag-Nummern (1 = Montag … 7 = Sonntag). Voreinstellung: `[2, 4, 5]` (Di, Do, Fr).
 
-- Die Priorität wird nicht gespeichert, sondern immer aus `wichtig` und `dringend` berechnet.
 - Der Balance-Balken zählt alle Aufgaben der Woche, offene und erledigte, weil er die **geplante** Zeit zeigt.
 - Falls der Browser nichts speichern kann (z. B. im privaten Fenster), läuft die App trotzdem weiter. Die Daten gehen dann beim Neuladen verloren.
 
@@ -121,7 +108,7 @@ Von oben nach unten:
    - Rand oder Hintergrund in der Bereichsfarbe
    - Titel
    - Dauer
-   - Prioritäts-Etikett („Sofort“ usw.)
+   - bei Wiederholungen das Zeichen „↻ …“
    - Häkchen zum Abhaken
    - Löschen-Knopf (×)
 
@@ -148,14 +135,14 @@ Außerdem gilt:
 Die App ist fertig, wenn diese Prüfungen klappen. Die Prüfungen 8 bis 11 gehören zu den Soll-Punkten. Wurde ein Soll-Punkt aus Zeitgründen weggelassen, entfällt auch seine Prüfung.
 
 1. `index.html` per Doppelklick öffnen → die aktuelle Woche erscheint, Montag bis Sonntag mit Datum, und der heutige Tag ist hervorgehoben.
-2. Aufgabe „Bericht schreiben“, Dienstag (Arbeitstag), Beruf, 1 Std., wichtig + dringend anlegen → sie erscheint am Dienstag in der Beruf-Farbe mit dem Etikett „Sofort“.
+2. Aufgabe „Bericht schreiben“, Dienstag (Arbeitstag), Beruf, 1 Std. anlegen → sie erscheint am Dienstag in der Beruf-Farbe mit „Beruf“ und „1 Std.“. Im Formular gibt es keine Häkchen „wichtig“ oder „dringend“.
 3. Ohne Titel auf „Hinzufügen“ klicken → es wird keine Aufgabe angelegt und ein Hinweis erscheint.
-4. Am selben Tag eine Aufgabe mit Priorität 4 und eine mit Priorität 2 anlegen → die Aufgabe mit Priorität 2 steht weiter oben.
+4. Am selben Tag zuerst „A“ und dann „B“ anlegen → „A“ steht oben, „B“ darunter.
 5. Eine Aufgabe abhaken → sie ist durchgestrichen. Erneut klicken → sie ist wieder normal.
 6. Eine Aufgabe löschen → die App fragt nach. Nach „OK“ ist die Aufgabe weg.
 7. Seite neu laden → alle Aufgaben, die Erledigt-Häkchen und die Arbeitstage sind noch da.
 8. **Balance-Balken:** 3 Std. Beruf und 1 Std. Privat in der Woche → der Balken zeigt 75 % / 25 % mit „3 Std.“ und „1 Std.“. Bei einer leeren Woche steht dort „Noch nichts geplant“.
-9. **Heute zuerst:** 4 offene Aufgaben für heute → die Karte zeigt genau 3, die wichtigste oben. Wird eine davon abgehakt, rückt die vierte nach.
+9. **Heute zuerst:** 4 offene Aufgaben für heute → die Karte zeigt genau 3, die kürzeste oben. Wird eine davon abgehakt, rückt die vierte nach.
 10. Der Tipp-Kasten zeigt einen Tipp. Nach mehrmaligem Neuladen erscheinen auch andere Tipps.
 11. „Nächste Woche →“ zeigt die Folgewoche. Die Aufgaben dieser Woche sind dort nicht zu sehen, der Balken rechnet nur mit der neuen Woche. „Diese Woche“ führt zurück.
 12. Wird das Fenster schmal wie beim Handy, liegen die Tage untereinander und nichts muss seitlich gescrollt werden.

@@ -15,11 +15,6 @@
   --warnung: #9a3412;
   --fehler: #b42318;
 
-  --prio1-bg: #fde2e1; --prio1-text: #9b1c1c;
-  --prio2-bg: #fdebd3; --prio2-text: #8a4b08;
-  --prio3-bg: #fef6c7; --prio3-text: #6b5300;
-  --prio4-bg: #eceef1; --prio4-text: #4b5563;
-
   /* Akzentfarben für Kopf und Kästen */
   --akzent: #6d28d9;
   --akzent-dunkel: #5b21b6;
@@ -197,10 +192,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 
 .bereich { border: none; margin: 0; padding: 0; flex-direction: row; gap: 12px; align-items: center; }
 .bereich legend { padding: 0; margin-bottom: 4px; }
-.bereich label, .haken label { color: var(--text); display: flex; align-items: center; gap: 6px; cursor: pointer; min-height: 44px; font-size: 1rem; }
+.bereich label { color: var(--text); display: flex; align-items: center; gap: 6px; cursor: pointer; min-height: 44px; font-size: 1rem; }
 .bereich label:has(input:disabled) { color: #9aa5b1; cursor: not-allowed; text-decoration: line-through; }
-.haken { flex-direction: row; gap: 16px; }
-
 .hinzufuegen {
   background: var(--akzent);
   color: #fff;
@@ -334,12 +327,6 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 .bereich-text.privat { color: var(--privat); font-weight: 600; }
 .dauer { color: var(--text-leise); }
 
-.prio { padding: 0 6px; border-radius: 999px; font-weight: 600; }
-.prio-1 { background: var(--prio1-bg); color: var(--prio1-text); }
-.prio-2 { background: var(--prio2-bg); color: var(--prio2-text); }
-.prio-3 { background: var(--prio3-bg); color: var(--prio3-text); }
-.prio-4 { background: var(--prio4-bg); color: var(--prio4-text); }
-
 .warn-frei { color: var(--warnung); font-weight: 600; }
 .wdh { color: var(--akzent); font-weight: 600; white-space: nowrap; }
 
@@ -392,7 +379,6 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   .feld-wdh { order: 4; }
   .feld-bis { order: 5; }
   .bereich { grid-column: 1 / -1; order: 6; }
-  .haken { grid-column: 1 / -1; order: 7; }
   .hinzufuegen { grid-column: 1 / -1; order: 8; min-height: 48px; font-size: 1.05rem; }
   .feld select, .feld input[type="date"] { width: 100%; min-width: 0; }
 
