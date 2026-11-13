@@ -27,6 +27,7 @@
   --tuerkis: #0f766e;
   --bernstein: #d97706;
   --bernstein-hell: #fff4e0;
+  --tipp: #db2777;
 }
 
 * { box-sizing: border-box; }
@@ -116,6 +117,24 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 .balken-teil.privat { background: var(--privat); }
 .balance-text { margin: 8px 0 0; }
 .balance-text .trenner { color: var(--text-leise); margin: 0 8px; }
+
+/* Reihe: Heute zuerst + Tipp nebeneinander */
+.reihe {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.reihe .kasten { margin-bottom: 0; min-width: 0; }
+
+.kasten-heute { border-top-color: var(--heute); background: #fffaf5; }
+.kasten-heute h2 { color: var(--heute); }
+.heute-datum { font-weight: 400; color: var(--text-leise); font-size: 0.95rem; }
+.kasten-heute .aufgaben + .leer { margin-top: 8px; }
+
+.kasten-tipp { border-top-color: var(--tipp); background: #fdf2f8; }
+.kasten-tipp h2 { color: #be185d; }
+.tipp-text { margin: 0; line-height: 1.55; }
 
 /* Arbeitstage */
 .arbeitstage { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -234,7 +253,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   border-left: 5px solid;
   padding: 6px 8px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   gap: 2px 6px;
   align-items: start;
 }
@@ -242,13 +261,14 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 .karte.privat { border-left-color: var(--privat); background: var(--privat-hell); }
 
 .karte input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
-.karte-titel { font-weight: 600; overflow-wrap: anywhere; }
+.karte-titel { font-weight: 600; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
 .karte.erledigt .karte-titel { text-decoration: line-through; color: var(--text-leise); }
 .karte.erledigt { opacity: 0.75; }
 
 .loeschen {
   border: none;
   background: transparent;
+  margin-left: auto;
   padding: 0 4px;
   font-size: 1.2rem;
   line-height: 1;
@@ -257,7 +277,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 .loeschen:hover { color: var(--fehler); background: transparent; }
 
 .karte-info {
-  grid-column: 2 / 4;
+  grid-column: 2;
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 4px 6px;
@@ -278,6 +299,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 /* Handy und schmale Fenster: Tage untereinander */
 @media (max-width: 800px) {
   .raster { grid-template-columns: 1fr; }
+  .reihe { grid-template-columns: 1fr; }
   .tag { min-height: 0; }
   h1 { font-size: 1.5rem; }
 }

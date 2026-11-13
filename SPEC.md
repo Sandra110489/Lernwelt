@@ -52,7 +52,7 @@ Die App zeigt dann:
 ### Soll (wenn Zeit ist, die zwei Highlights zuerst)
 
 1. **Highlight 1: Balance-Balken.** Oben steht ein Balken, der den Anteil der geplanten Stunden in der angezeigten Woche zeigt: Beruf gegen Privat, in den beiden Bereichsfarben, mit Prozent und Stunden (z. B. „Beruf 70 % · 14 Std. | Privat 30 % · 6 Std.“). Hat die Woche noch keine Aufgaben, steht dort „Noch nichts geplant“.
-2. **Highlight 2: Karte „Heute zuerst“.** Sie zeigt die bis zu 3 wichtigsten **offenen** Aufgaben von heute, sortiert nach Priorität und bei gleicher Priorität nach Dauer (die kürzere zuerst). Ist nichts offen, steht dort „Heute ist alles erledigt 🎉“. Die Karte zeigt immer den echten heutigen Tag, auch wenn gerade eine andere Woche angezeigt wird.
+2. **Highlight 2: Karte „Heute zuerst“.** Sie zeigt die bis zu 3 wichtigsten **offenen** Aufgaben von heute, sortiert nach Priorität und bei gleicher Priorität nach Dauer (die kürzere zuerst). Ist nichts offen, steht dort „Heute ist alles erledigt 🎉“. Gibt es heute gar keine Aufgaben, steht dort „Für heute ist nichts geplant.“ Sind mehr als 3 Aufgaben offen, zeigt ein Hinweis, wie viele es noch gibt (z. B. „+ 2 weitere offene Aufgaben heute“). Die Karte zeigt immer den echten heutigen Tag, auch wenn gerade eine andere Woche angezeigt wird.
 3. **Tipp-Kasten:** Ein kurzer Tipp zum Zeitmanagement, nach dem Zufall ausgewählt aus etwa 8 festen Tipps. Bei jedem Neuladen wird neu gelost.
 4. **Wochen wechseln:** Mit den Knöpfen „← Vorige Woche“, „Diese Woche“ und „Nächste Woche →“ blättert man durch die Wochen.
 

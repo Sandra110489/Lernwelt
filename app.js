@@ -13,6 +13,17 @@ const MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
 
 const PRIO_TEXT = { 1: "Sofort", 2: "Einplanen", 3: "Kurz halten", 4: "Weglassen?" };
 
+const TIPPS = [
+  "Wichtig vor dringend: Plane wichtige Aufgaben fest ein, bevor Dringendes den Tag füllt.",
+  "Das Schwierigste zuerst: Erledige die unangenehmste Aufgabe am Anfang des Tages.",
+  "Plane Puffer ein: Verplane nur etwa zwei Drittel deiner Zeit.",
+  "Pausen gehören dazu: Nach 45–60 Minuten Konzentration hilft eine kurze Pause.",
+  "Nein sagen schützt deine Zeit. Aufgaben mit „Weglassen?“ darfst du wirklich streichen.",
+  "Teile große Aufgaben in kleine Schritte von höchstens 1–2 Stunden.",
+  "Freie Tage sind für dich: Plane Erholung genauso bewusst ein wie Arbeit.",
+  "Bündle Ähnliches: E-Mails, Anrufe oder Besorgungen am Stück erledigen."
+];
+
 // ---------- Zustand ----------
 
 let aufgaben = [];
@@ -160,7 +171,11 @@ const el = {
   balken: document.getElementById("balance-balken"),
   balkenBeruf: document.getElementById("balance-beruf"),
   balkenPrivat: document.getElementById("balance-privat"),
-  balanceText: document.getElementById("balance-text")
+  balanceText: document.getElementById("balance-text"),
+  heuteDatum: document.getElementById("heute-datum"),
+  heuteListe: document.getElementById("heute-liste"),
+  heuteText: document.getElementById("heute-text"),
+  tippText: document.getElementById("tipp-text")
 };
 
 // ---------- Anzeige ----------
@@ -257,6 +272,43 @@ function zeichneRaster() {
   });
 
   zeichneBalance();
+  zeichneHeute();
+}
+
+// Highlight 2: die bis zu 3 wichtigsten offenen Aufgaben von heute (immer der echte heutige Tag)
+function zeichneHeute() {
+  const jetzt = new Date();
+  const heute = datumText(jetzt);
+  el.heuteDatum.textContent = "– " + TAG_LANG[wochentagNr(jetzt) - 1] + ", " +
+    jetzt.getDate() + "." + (jetzt.getMonth() + 1) + ".";
+
+  const vonHeute = aufgaben.filter(function (a) { return a.datum === heute; });
+  const offen = vonHeute.filter(function (a) { return !a.erledigt; }).sort(function (x, y) {
+    return (prioritaet(x) - prioritaet(y)) ||
+      ((Number(x.dauer) || 0) - (Number(y.dauer) || 0)) ||
+      ((x.erstellt || 0) - (y.erstellt || 0));
+  });
+
+  const frei = !istArbeitstag(heute);
+  el.heuteListe.textContent = "";
+  offen.slice(0, 3).forEach(function (a) { el.heuteListe.appendChild(karte(a, frei)); });
+  el.heuteListe.hidden = offen.length === 0;
+
+  const rest = offen.length - 3;
+  if (vonHeute.length === 0) {
+    el.heuteText.textContent = "Für heute ist nichts geplant.";
+  } else if (offen.length === 0) {
+    el.heuteText.textContent = "Heute ist alles erledigt 🎉";
+  } else if (rest > 0) {
+    el.heuteText.textContent = "+ " + rest + (rest === 1 ? " weitere offene Aufgabe heute" : " weitere offene Aufgaben heute");
+  } else {
+    el.heuteText.textContent = "";
+  }
+  el.heuteText.hidden = el.heuteText.textContent === "";
+}
+
+function zeigeTipp() {
+  el.tippText.textContent = TIPPS[Math.floor(Math.random() * TIPPS.length)];
 }
 
 // Highlight 1: Verteilung der geplanten Stunden (Beruf / Privat) in der angezeigten Woche
@@ -354,10 +406,10 @@ function karte(a, tagIstFrei) {
     warn.textContent = "⚠ freier Tag";
     info.appendChild(warn);
   }
+  info.appendChild(weg);
 
   li.appendChild(haken);
   li.appendChild(titel);
-  li.appendChild(weg);
   li.appendChild(info);
   return li;
 }
@@ -446,6 +498,7 @@ function blaettern(schritt) {
 // ---------- Start ----------
 
 laden();
+zeigeTipp();
 zeichneArbeitstage();
 zeichneAlles();
 
