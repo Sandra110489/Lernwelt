@@ -56,6 +56,17 @@ Die App zeigt dann:
 3. **Tipp-Kasten:** Ein kurzer Tipp zum Zeitmanagement, nach dem Zufall ausgewählt aus etwa 8 festen Tipps. Bei jedem Neuladen wird neu gelost.
 4. **Wochen wechseln:** Mit den Knöpfen „← Vorige Woche“, „Diese Woche“ und „Nächste Woche →“ blättert man durch die Wochen.
 
+### Erweiterung: Wiederholungen
+
+1. Im Formular gibt es das Feld **„Wiederholen“** mit: nie (Standard), täglich, wöchentlich, alle 2 Wochen, monatlich, jährlich. Der gewählte Tag ist der **Starttag**.
+2. Ist eine Wiederholung gewählt, erscheint das Feld **„bis (optional)“**. Ohne Datum gilt die Wiederholung ohne Ende. Ein Enddatum vor dem Starttag wird nicht angenommen („Das Enddatum liegt vor dem Starttag.“).
+3. **Monatlich** am 29., 30. oder 31. gestartet: In kürzeren Monaten ist der Termin am letzten Tag des Monats. **Jährlich** am 29. Februar: In normalen Jahren am 28. Februar.
+4. Wiederkehrende Aufgaben tragen auf dem Kärtchen das Zeichen **„↻ wöchentlich“** usw.
+5. **Abhaken gilt nur für den einen Termin.** Die anderen Termine bleiben offen.
+6. **Löschen:** Die App fragt „Nur diesen Termin“, „Alle Termine“ oder „Abbrechen“. „Nur diesen Termin“ lässt genau diesen Tag aus, alle anderen bleiben.
+7. **Freie Tage:** Eine berufliche Wiederholung erscheint auch an freien Tagen, dort mit „⚠ freier Tag“.
+8. Balance-Balken und „Heute zuerst“ zählen jeden Termin einer Wiederholung mit.
+
 ### Bewusst nicht
 
 - Keine Anmeldung, keine mehreren Nutzer, kein Server
@@ -63,7 +74,8 @@ Die App zeigt dann:
 - Keine Tagesansicht und keine Monatsansicht
 - Kein Bearbeiten bestehender Aufgaben (stattdessen löschen und neu anlegen)
 - Kein Ziehen mit der Maus (Drag & Drop)
-- Keine Wiederholungen (z. B. „jeden Montag“)
+- Keine eigenen Wiederhol-Regeln wie „jeden 2. Dienstag im Monat“ oder „Mo, Mi und Fr“ (nur die festen Rhythmen oben)
+- Kein Ändern einer Wiederholung „ab hier“ (stattdessen alle löschen und neu anlegen)
 - Keine Ausnahmen für einzelne Wochen (z. B. Urlaub oder ein getauschter Arbeitstag). Die Arbeitstage gelten immer für alle Wochen.
 - Keine Erinnerungen und keine Benachrichtigungen
 - Kein Sync zwischen Geräten, kein Export und kein Import
@@ -82,7 +94,13 @@ Die Daten werden im Browser gespeichert (`localStorage`) unter dem Schlüssel `l
 | `dauer`    | Zahl      | `60`                     | geschätzte Dauer in Minuten       |
 | `wichtig`  | ja/nein   | `true`                   |                                   |
 | `dringend` | ja/nein   | `false`                  |                                   |
-| `erledigt` | ja/nein   | `false`                  |                                   |
+| `erledigt` | ja/nein   | `false`                  | nur bei einmaligen Aufgaben       |
+| `wiederholung` | Text  | `""` / `"taeglich"` / `"woechentlich"` / `"zweiwoechentlich"` / `"monatlich"` / `"jaehrlich"` | `""` = einmalig; sonst ist `datum` der Starttag |
+| `bis`      | Text      | `""` / `"2027-03-31"`    | letzter möglicher Tag (leer = ohne Ende) |
+| `erledigtAm` | Liste   | `["2026-11-17"]`         | erledigte Termine einer Wiederholung |
+| `ausgelassen` | Liste  | `["2026-12-22"]`         | einzeln gelöschte Termine einer Wiederholung |
+
+Ältere gespeicherte Aufgaben ohne diese Felder gelten als einmalig.
 
 Die **Arbeitstage** werden unter einem zweiten Schlüssel `lernwelt-arbeitstage` gespeichert, als Liste von Wochentag-Nummern (1 = Montag … 7 = Sonntag). Voreinstellung: `[2, 4, 5]` (Di, Do, Fr).
 
@@ -146,3 +164,9 @@ Die App ist fertig, wenn diese Prüfungen klappen. Die Prüfungen 8 bis 11 gehö
 15. Im Formular den Montag (frei) wählen → „Beruf“ ist ausgegraut und „Privat“ ist gewählt. Den Dienstag wählen → „Beruf“ ist wieder wählbar.
 16. Den Mittwoch als Arbeitstag anhaken → er verliert das Etikett „frei“ und „Beruf“ ist dort planbar. Nach dem Neuladen ist das Häkchen noch gesetzt.
 17. Dienstag eine berufliche Aufgabe anlegen, dann Dienstag als Arbeitstag abwählen → die Aufgabe bleibt sichtbar und trägt den Hinweis „⚠ freier Tag“.
+18. **Wiederholung wöchentlich:** „Team-Meeting“, Dienstag, wöchentlich anlegen → es erscheint jeden Dienstag mit „↻ wöchentlich“, auch nach „Nächste Woche →“. In der Woche davor erscheint es nicht.
+19. **Täglich mit Enddatum:** „Lesen“, Montag, täglich, bis Mittwoch → erscheint genau Mo, Di und Mi. Ein Enddatum vor dem Starttag ergibt die Meldung „Das Enddatum liegt vor dem Starttag.“
+20. **Abhaken:** Einen Termin einer Wiederholung abhaken → nur dieser Termin ist durchgestrichen, die anderen bleiben offen.
+21. **Löschen:** × bei einer Wiederholung → das Fenster fragt nach. „Nur diesen Termin“ entfernt nur diesen Tag, „Alle Termine“ entfernt alle, „Abbrechen“ ändert nichts.
+22. **Monatlich am 31.** → im Monat mit 30 Tagen am 30. **Jährlich am 29.2.** → in normalen Jahren am 28.2.
+23. Eine tägliche berufliche Wiederholung erscheint auch an freien Tagen, dort mit „⚠ freier Tag“. Der Balance-Balken zählt jeden Termin.

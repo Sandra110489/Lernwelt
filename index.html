@@ -79,6 +79,23 @@
           </select>
         </label>
 
+        <label class="feld feld-wdh">
+          Wiederholen
+          <select id="f-wdh">
+            <option value="" selected>nie</option>
+            <option value="taeglich">täglich</option>
+            <option value="woechentlich">wöchentlich</option>
+            <option value="zweiwoechentlich">alle 2 Wochen</option>
+            <option value="monatlich">monatlich</option>
+            <option value="jaehrlich">jährlich</option>
+          </select>
+        </label>
+
+        <label class="feld feld-bis" id="feld-bis" hidden>
+          bis (optional)
+          <input type="date" id="f-bis">
+        </label>
+
         <div class="feld haken">
           <label><input type="checkbox" id="f-wichtig"> wichtig</label>
           <label><input type="checkbox" id="f-dringend"> dringend</label>
@@ -87,10 +104,20 @@
         <button type="submit" class="hinzufuegen">Hinzufügen</button>
       </form>
       <p id="hinweis-titel" class="hinweis fehler" role="alert" hidden>Bitte einen Titel eingeben.</p>
+      <p id="hinweis-bis" class="hinweis fehler" role="alert" hidden>Das Enddatum liegt vor dem Starttag.</p>
       <p id="hinweis-ok" class="hinweis ok" role="status" hidden></p>
     </section>
 
     <section id="raster" class="raster" aria-label="Wochenplan"></section>
   </main>
+
+  <dialog id="dlg-loeschen" class="dialog" aria-labelledby="dlg-text">
+    <p id="dlg-text" class="dialog-text"></p>
+    <div class="dialog-knoepfe">
+      <button type="button" id="dlg-einen">Nur diesen Termin</button>
+      <button type="button" id="dlg-alle" class="gefahr">Alle Termine</button>
+      <button type="button" id="dlg-abbrechen">Abbrechen</button>
+    </div>
+  </dialog>
 </body>
 </html>

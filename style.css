@@ -31,6 +31,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -181,7 +182,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   gap: 12px 16px;
 }
 .feld { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; color: var(--text-leise); }
-.feld input[type="text"], .feld select {
+.feld input[type="text"], .feld input[type="date"], .feld select {
   min-height: 44px;
   padding: 8px 10px;
   border: 1px solid var(--rand);
@@ -207,7 +208,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   font-weight: 600;
 }
 .hinzufuegen:hover { background: var(--akzent-dunkel); }
-.feld input[type="text"]:focus, .feld select:focus {
+.feld input[type="text"]:focus, .feld input[type="date"]:focus, .feld select:focus {
   outline: 2px solid var(--akzent);
   outline-offset: 1px;
   border-color: var(--akzent);
@@ -340,6 +341,23 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 .prio-4 { background: var(--prio4-bg); color: var(--prio4-text); }
 
 .warn-frei { color: var(--warnung); font-weight: 600; }
+.wdh { color: var(--akzent); font-weight: 600; white-space: nowrap; }
+
+/* Nachfrage beim Löschen einer Wiederholung */
+.dialog {
+  max-width: min(420px, calc(100vw - 32px));
+  border: none;
+  border-top: 5px solid var(--akzent);
+  border-radius: 14px;
+  padding: 20px;
+  color: var(--text);
+  box-shadow: 0 12px 40px rgba(31, 41, 51, 0.3);
+}
+.dialog::backdrop { background: rgba(31, 41, 51, 0.45); }
+.dialog-text { margin: 0 0 16px; font-size: 1.05rem; }
+.dialog-knoepfe { display: flex; flex-direction: column; gap: 8px; }
+.dialog-knoepfe .gefahr { background: var(--fehler); border-color: var(--fehler); color: #fff; font-weight: 600; }
+.dialog-knoepfe .gefahr:hover { background: #912018; }
 
 /* Schmale Fenster: Tage und Kästen untereinander */
 @media (max-width: 800px) {
@@ -371,10 +389,12 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   .feld-titel { grid-column: 1 / -1; order: 1; }
   .feld-tag { order: 2; }
   .feld-dauer { order: 3; }
-  .bereich { grid-column: 1 / -1; order: 4; }
-  .haken { grid-column: 1 / -1; order: 5; }
-  .hinzufuegen { grid-column: 1 / -1; order: 6; min-height: 48px; font-size: 1.05rem; }
-  .feld select { width: 100%; }
+  .feld-wdh { order: 4; }
+  .feld-bis { order: 5; }
+  .bereich { grid-column: 1 / -1; order: 6; }
+  .haken { grid-column: 1 / -1; order: 7; }
+  .hinzufuegen { grid-column: 1 / -1; order: 8; min-height: 48px; font-size: 1.05rem; }
+  .feld select, .feld input[type="date"] { width: 100%; min-width: 0; }
 
   /* Größere Tippflächen in den Kärtchen */
   .karte { padding: 8px 10px; }
