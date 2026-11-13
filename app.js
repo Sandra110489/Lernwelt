@@ -29,6 +29,8 @@ const TIPPS = [
 let aufgaben = [];
 let arbeitstage = STANDARD_ARBEITSTAGE.slice();
 let wochenVersatz = 0; // 0 = diese Woche, -1 = vorige, +1 = nächste
+let neueAufgabeId = null; // gerade angelegte Aufgabe: ihr Kärtchen leuchtet einmal kurz auf
+let okTimer = null;
 
 // ---------- Speichern und Laden ----------
 
@@ -167,6 +169,7 @@ const el = {
   wichtig: document.getElementById("f-wichtig"),
   dringend: document.getElementById("f-dringend"),
   hinweisTitel: document.getElementById("hinweis-titel"),
+  hinweisOk: document.getElementById("hinweis-ok"),
   raster: document.getElementById("raster"),
   balken: document.getElementById("balance-balken"),
   balkenBeruf: document.getElementById("balance-beruf"),
@@ -360,7 +363,7 @@ function zeichneBalance() {
 
 function karte(a, tagIstFrei) {
   const li = document.createElement("li");
-  li.className = "karte " + a.bereich + (a.erledigt ? " erledigt" : "");
+  li.className = "karte " + a.bereich + (a.erledigt ? " erledigt" : "") + (a.id === neueAufgabeId ? " neu" : "");
 
   const haken = document.createElement("input");
   haken.type = "checkbox";
@@ -434,6 +437,7 @@ function aufgabeAnlegen(ereignis) {
   ereignis.preventDefault();
   const titel = el.titel.value.trim();
   if (titel === "") {
+    el.hinweisOk.hidden = true;
     el.hinweisTitel.hidden = false;
     el.titel.focus();
     return;
@@ -441,11 +445,13 @@ function aufgabeAnlegen(ereignis) {
   el.hinweisTitel.hidden = true;
 
   const datum = el.tag.value;
+  const tagText = el.tag.options[el.tag.selectedIndex].textContent;
   let bereich = el.privat.checked ? "privat" : "beruf";
   if (!istArbeitstag(datum)) bereich = "privat";
 
+  const id = neueId();
   aufgaben.push({
-    id: neueId(),
+    id: id,
     titel: titel,
     datum: datum,
     bereich: bereich,
@@ -456,12 +462,23 @@ function aufgabeAnlegen(ereignis) {
     erstellt: Date.now()
   });
   speichern();
+  neueAufgabeId = id;
   zeichneRaster();
+  neueAufgabeId = null;
+  zeigeOk("✓ „" + titel + "“ für " + tagText + " eingeplant");
 
   el.titel.value = "";
   el.wichtig.checked = false;
   el.dringend.checked = false;
   el.titel.focus();
+}
+
+// Kurze Bestätigung unter dem Formular, verschwindet nach 4 Sekunden
+function zeigeOk(text) {
+  el.hinweisOk.textContent = text;
+  el.hinweisOk.hidden = false;
+  clearTimeout(okTimer);
+  okTimer = setTimeout(function () { el.hinweisOk.hidden = true; }, 4000);
 }
 
 function arbeitstagGeaendert() {

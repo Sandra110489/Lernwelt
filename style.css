@@ -53,13 +53,29 @@ button, input, select { font: inherit; }
 
 button {
   cursor: pointer;
-  padding: 6px 12px;
+  min-height: 44px;
+  padding: 8px 14px;
   border: 1px solid var(--rand);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--flaeche);
   color: var(--text);
+  font-size: 1rem;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 button:hover { background: #eef1f4; }
+button:active { transform: translateY(1px); }
+
+/* Sichtbarer Fokus für die Bedienung mit der Tastatur */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+}
+.kopf button:focus-visible { outline-color: #fff; }
+
+/* Kurze und lange Knopftexte (Handy / breit) */
+.kurz { display: none; }
 
 /* Kopf */
 .kopf {
@@ -154,7 +170,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   color: #7c3d06;
   font-weight: 600;
 }
-.arbeitstage input { accent-color: var(--bernstein); }
+.arbeitstage input { accent-color: var(--bernstein); width: 18px; height: 18px; margin: 0; }
+.arbeitstage label:has(input:focus-visible) { outline: 2px solid var(--akzent); outline-offset: 2px; }
 
 /* Formular */
 .formular {
@@ -165,20 +182,23 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 }
 .feld { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; color: var(--text-leise); }
 .feld input[type="text"], .feld select {
-  padding: 6px 8px;
+  min-height: 44px;
+  padding: 8px 10px;
   border: 1px solid var(--rand);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--text);
   background: var(--flaeche);
+  font-size: 1rem; /* 16 px: verhindert das automatische Zoomen am iPhone */
 }
+.formular input[type="checkbox"], .formular input[type="radio"] { width: 20px; height: 20px; margin: 0; }
 .feld-titel { flex: 1 1 220px; }
 .feld-titel input { width: 100%; }
 
 .bereich { border: none; margin: 0; padding: 0; flex-direction: row; gap: 12px; align-items: center; }
 .bereich legend { padding: 0; margin-bottom: 4px; }
-.bereich label, .haken label { color: var(--text); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.bereich label, .haken label { color: var(--text); display: flex; align-items: center; gap: 6px; cursor: pointer; min-height: 44px; font-size: 1rem; }
 .bereich label:has(input:disabled) { color: #9aa5b1; cursor: not-allowed; text-decoration: line-through; }
-.haken { flex-direction: row; gap: 12px; padding-bottom: 6px; }
+.haken { flex-direction: row; gap: 16px; }
 
 .hinzufuegen {
   background: var(--akzent);
@@ -195,6 +215,13 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 
 .hinweis { margin: 8px 0 0; color: var(--warnung); font-size: 0.95rem; }
 .hinweis.fehler { color: var(--fehler); font-weight: 600; }
+.hinweis.ok {
+  color: var(--privat);
+  font-weight: 600;
+  background: var(--privat-hell);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
 
 /* Wochenraster */
 .raster {
@@ -243,7 +270,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   color: var(--privat);
   font-weight: 600;
 }
-.leer { color: var(--text-leise); font-size: 0.85rem; margin: 0; }
+.leer { color: var(--text-leise); font-size: 0.85rem; margin: 0; font-style: italic; }
+.kasten-heute .leer { font-style: normal; font-size: 0.95rem; }
 
 .aufgaben { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 
@@ -254,27 +282,44 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
   padding: 6px 8px;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 2px 6px;
+  gap: 2px 8px;
   align-items: start;
+  box-shadow: 0 1px 3px rgba(31, 41, 51, 0.08);
+  transition: box-shadow 0.15s ease, opacity 0.15s ease;
 }
+.karte:hover { box-shadow: 0 3px 10px rgba(31, 41, 51, 0.14); }
 .karte.beruf { border-left-color: var(--beruf); background: var(--beruf-hell); }
 .karte.privat { border-left-color: var(--privat); background: var(--privat-hell); }
 
-.karte input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+.karte input[type="checkbox"] { width: 20px; height: 20px; margin: 1px 0 0; cursor: pointer; }
 .karte-titel { font-weight: 600; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
 .karte.erledigt .karte-titel { text-decoration: line-through; color: var(--text-leise); }
-.karte.erledigt { opacity: 0.75; }
+.karte.erledigt { opacity: 0.6; box-shadow: none; }
+
+/* Neu angelegtes Kärtchen leuchtet kurz auf */
+.karte.neu { animation: aufleuchten 1.2s ease-out; }
+@keyframes aufleuchten {
+  0%, 30% { box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.45); }
+  100% { box-shadow: 0 1px 3px rgba(31, 41, 51, 0.08); }
+}
 
 .loeschen {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-height: 0;
+  margin: -4px -4px -4px auto;
+  padding: 0;
   border: none;
+  border-radius: 50%;
   background: transparent;
-  margin-left: auto;
-  padding: 0 4px;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1;
   color: var(--text-leise);
 }
-.loeschen:hover { color: var(--fehler); background: transparent; }
+.loeschen:hover { color: var(--fehler); background: rgba(180, 35, 24, 0.1); }
 
 .karte-info {
   grid-column: 2;
@@ -296,10 +341,48 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--akzent); }
 
 .warn-frei { color: var(--warnung); font-weight: 600; }
 
-/* Handy und schmale Fenster: Tage untereinander */
+/* Schmale Fenster: Tage und Kästen untereinander */
 @media (max-width: 800px) {
   .raster { grid-template-columns: 1fr; }
   .reihe { grid-template-columns: 1fr; }
   .tag { min-height: 0; }
   h1 { font-size: 1.5rem; }
+}
+
+/* Handy: alles bequem mit dem Daumen bedienbar */
+@media (max-width: 560px) {
+  body { padding: 12px; }
+  .kopf { padding: 16px; gap: 14px; }
+  h1 { font-size: 1.4rem; }
+
+  /* Blätter-Knöpfe in einer Reihe, kurze Texte */
+  .blaettern { display: grid; grid-template-columns: 1fr 1fr 1fr; width: 100%; }
+  .blaettern button { padding: 8px 4px; }
+  .lang { display: none; }
+  .kurz { display: inline; }
+
+  /* Arbeitstage: 7 gleich breite Knöpfe in einer Reihe, Farbe zeigt den Zustand */
+  .arbeitstage { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .arbeitstage label { position: relative; justify-content: center; min-height: 44px; padding: 4px 0; border-radius: 10px; }
+  .arbeitstage input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+
+  /* Formular: volle Breite, Tag und Dauer nebeneinander */
+  .formular { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feld-titel { grid-column: 1 / -1; order: 1; }
+  .feld-tag { order: 2; }
+  .feld-dauer { order: 3; }
+  .bereich { grid-column: 1 / -1; order: 4; }
+  .haken { grid-column: 1 / -1; order: 5; }
+  .hinzufuegen { grid-column: 1 / -1; order: 6; min-height: 48px; font-size: 1.05rem; }
+  .feld select { width: 100%; }
+
+  /* Größere Tippflächen in den Kärtchen */
+  .karte { padding: 8px 10px; }
+  .karte input[type="checkbox"] { width: 24px; height: 24px; }
+  .loeschen { width: 40px; height: 40px; margin: -8px -8px -8px auto; }
+}
+
+/* Weniger Bewegung, wenn im System so eingestellt */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

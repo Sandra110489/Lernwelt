@@ -112,6 +112,9 @@ Außerdem gilt:
 - Auf dem Handy liegen die Tage untereinander statt nebeneinander.
 - Die Schrift ist gut lesbar, die Kontraste sind ausreichend, und die Farben werden zusätzlich durch das Wort „Beruf“ oder „Privat“ erklärt (nicht nur durch Farbe).
 - Alles ist auf Deutsch.
+- Am Handy sind Tippflächen mindestens etwa 40 px groß, und Eingabefelder haben mindestens 16 px Schrift (kein automatisches Zoomen).
+- Nach „Hinzufügen“ erscheint eine kurze Bestätigung, und das neue Kärtchen leuchtet kurz auf.
+- Die App ist auch mit der Tastatur bedienbar, der Fokus ist sichtbar.
 
 ## 6. Technik und Grenzen
 

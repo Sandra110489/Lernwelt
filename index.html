@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6d28d9">
   <title>Mein Wochenplan</title>
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
@@ -14,9 +15,9 @@
       <p id="wochen-text" class="wochen-text"></p>
     </div>
     <nav class="blaettern" aria-label="Woche wechseln">
-      <button type="button" id="btn-vorige">← Vorige Woche</button>
-      <button type="button" id="btn-diese">Diese Woche</button>
-      <button type="button" id="btn-naechste">Nächste Woche →</button>
+      <button type="button" id="btn-vorige" aria-label="Vorige Woche">← Vorige<span class="lang"> Woche</span></button>
+      <button type="button" id="btn-diese" aria-label="Diese Woche"><span class="lang">Diese Woche</span><span class="kurz">Heute</span></button>
+      <button type="button" id="btn-naechste" aria-label="Nächste Woche">Nächste<span class="lang"> Woche</span> →</button>
     </nav>
   </header>
 
@@ -55,7 +56,7 @@
           <input type="text" id="f-titel" maxlength="100" autocomplete="off" placeholder="z. B. Bericht schreiben">
         </label>
 
-        <label class="feld">
+        <label class="feld feld-tag">
           Tag
           <select id="f-tag"></select>
         </label>
@@ -66,7 +67,7 @@
           <label><input type="radio" name="bereich" value="privat" id="f-privat"> Privat</label>
         </fieldset>
 
-        <label class="feld">
+        <label class="feld feld-dauer">
           Dauer
           <select id="f-dauer">
             <option value="15">15 Min.</option>
@@ -85,7 +86,9 @@
 
         <button type="submit" class="hinzufuegen">Hinzufügen</button>
       </form>
-      <p id="hinweis-titel" class="hinweis fehler" hidden>Bitte einen Titel eingeben.</p>    </section>
+      <p id="hinweis-titel" class="hinweis fehler" role="alert" hidden>Bitte einen Titel eingeben.</p>
+      <p id="hinweis-ok" class="hinweis ok" role="status" hidden></p>
+    </section>
 
     <section id="raster" class="raster" aria-label="Wochenplan"></section>
   </main>
